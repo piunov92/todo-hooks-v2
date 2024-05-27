@@ -1,8 +1,10 @@
 .form {
   display: flex;
   margin-bottom: 0;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
-  
+  box-shadow:
+    0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 25px 50px 0 rgba(0, 0, 0, 0.1);
+
   input {
     font-size: 24px;
     font-family: inherit;
@@ -15,7 +17,7 @@
     box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
 
     &::placeholder {
-      opacity: .6;
+      opacity: 0.6;
     }
   }
 
@@ -28,5 +30,4 @@
     width: 15%;
     padding-left: 16px;
   }
-
 }
