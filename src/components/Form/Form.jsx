@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import './Form.scss'
 import { useEffect } from 'react'
 
-const Form = ({ setFormData }) => {
+const Form = ({ setFormData, addTask }) => {
   const {
     register,
     handleSubmit,
@@ -26,6 +26,7 @@ const Form = ({ setFormData }) => {
 
   const submit = (data) => {
     setFormData(data)
+    addTask(data.todo)
   }
 
   // console.log('render form component')
@@ -34,7 +35,9 @@ const Form = ({ setFormData }) => {
       <input
         className='form__task'
         placeholder='What needs to be done?'
-        {...register('todo')}
+        {...register('todo', {
+          required: true,
+        })}
       />
       <input
         name='minutes'

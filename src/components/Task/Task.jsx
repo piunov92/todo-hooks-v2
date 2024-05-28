@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 
-const Task = ({ id, count, saveTime, launched, restartTime, hidden }) => {
+import './Task.scss'
+
+const Task = ({ id, count, saveTime, launched, restartTime, hidden, todo }) => {
   const currentTimer =
     (new Date().getHours() * 60 + new Date().getMinutes()) * 60 +
     new Date().getSeconds()
@@ -58,16 +60,35 @@ const Task = ({ id, count, saveTime, launched, restartTime, hidden }) => {
   // console.log('render component Timer')
   return (
     <div className='task'>
-      <span>Timer</span>
-      <span>{id}</span>
-      <span>{timer}</span>
+      <span>{todo}</span>
       <div className='task__buttons'>
-        <button type='button' onClick={start}>
-          Start
-        </button>
-        <button type='button' onClick={stop}>
-          Stop
-        </button>
+        <button
+          className='play'
+          type='button'
+          aria-label='play'
+          onClick={start}
+        />
+        <button
+          className='pause'
+          type='button'
+          aria-label='pause'
+          onClick={stop}
+        />
+        <span>{timer}</span>
+      </div>
+      <div className='task__buttons'>
+        <button
+          className='edit'
+          type='button'
+          aria-label='edit'
+          onClick={() => console.log('edit click')}
+        />
+        <button
+          className='remove'
+          type='button'
+          aria-label='remove'
+          onClick={() => console.log('remove click')}
+        />
       </div>
     </div>
   )

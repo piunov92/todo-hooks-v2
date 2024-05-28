@@ -1,5 +1,7 @@
 import Task from '../Task/Task'
 
+import './Tasks.scss'
+
 const Tasks = ({ data, hidden, saveTime, restartTime }) => {
   const list = data.map((task) => (
     <Task
@@ -10,9 +12,10 @@ const Tasks = ({ data, hidden, saveTime, restartTime }) => {
       launched={task.launched}
       restartTime={restartTime}
       hidden={hidden}
+      todo={task.todo}
     />
   ))
-  return hidden && <span>{list}</span>
+  return hidden && <span className='tasks'>{list}</span>
 }
 
 export default Tasks
