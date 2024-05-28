@@ -1,8 +1,15 @@
 import { useForm } from 'react-hook-form'
 import './Form.scss'
+import { useEffect } from 'react'
 
-const Form = () => {
-  const { register, handleSubmit } = useForm({
+const Form = ({ setFormData }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitSuccessful, errors },
+    clearErrors,
+    reset,
+  } = useForm({
     defaultValues: {
       todo: '',
       min: '',
@@ -10,18 +17,43 @@ const Form = () => {
     },
   })
 
-  const onSubmit = (data) => console.log(data)
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      clearErrors()
+      reset()
+    }
+  }, [isSubmitSuccessful, reset, clearErrors])
 
+  const submit = (data) => {
+    setFormData(data)
+  }
+
+  // console.log('render form component')
   return (
-    <form className='form' onSubmit={handleSubmit(onSubmit)}>
+    <form className='form' onSubmit={handleSubmit(submit)}>
       <input
         className='form__task'
         placeholder='What needs to be done?'
         {...register('todo')}
       />
-      <input className='form__timer' placeholder='Min' {...register('min')} />
-      <input className='form__timer' placeholder='Sec' {...register('sec')} />
-      <input type='submit' />
+      <input
+        name='minutes'
+        className={`form__timer ${errors.min ? 'form__timer-error' : ''}`}
+        placeholder='Min'
+        {...register('min', {
+          maxLength: 4,
+          pattern: /^[0-9+]*$/,
+        })}
+      />
+      <input
+        className={`form__timer ${errors.sec ? 'form__timer-error' : ''}`}
+        placeholder='Sec'
+        {...register('sec', {
+          maxLength: 2,
+          pattern: /^[0-9+]*$/,
+        })}
+      />
+      <input type='submit' style={{ display: 'none' }} />
     </form>
   )
 }

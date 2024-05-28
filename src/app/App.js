@@ -7,6 +7,13 @@ import './App.scss'
 const App = () => {
   const [data, setData] = useState([])
   const [hidden, setHidden] = useState(true)
+  const [formData, setFormData] = useState({
+    todo: '',
+    min: '',
+    sec: '',
+  })
+
+  console.log(formData)
 
   const newTask = () => {
     const task = {
@@ -44,7 +51,7 @@ const App = () => {
 
   return (
     <section className='app'>
-      <Header addTask={newTask} />
+      <Header addTask={newTask} setFormData={setFormData} />
       <Tasks
         data={data}
         hidden={hidden}
