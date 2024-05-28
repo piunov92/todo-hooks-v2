@@ -6,8 +6,13 @@
   background-color: #fff;
   padding: 15px 10px 15px 60px;
 
+  span, label {
+    overflow-wrap: anywhere;
+    width: 9rem;
+  }
+
   &__buttons {
-    width: 5rem;
+    width: 6rem;
 
     button {
       position: relative;
