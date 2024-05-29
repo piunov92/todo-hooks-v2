@@ -59,44 +59,42 @@ const Task = ({ id, count, saveTime, launched, restartTime, hidden, todo }) => {
 
   // console.log('render component Timer')
   return (
-    <>
-      <input type='checkbox' name='done' id={id} />
-      <div className='task'>
-        <label htmlFor={id}>
-          <span>{todo}</span>
-        </label>
-        <div className='task__buttons'>
-          <button
-            className='play'
-            type='button'
-            aria-label='play'
-            onClick={start}
-          />
-          <button
-            className='pause'
-            type='button'
-            aria-label='pause'
-            onClick={stop}
-          />
-          <span>{timer}</span>
-        </div>
-        <span>created 17 seconds ago</span>
-        <div className='task__buttons'>
-          <button
-            className='edit'
-            type='button'
-            aria-label='edit'
-            onClick={() => console.log('edit click')}
-          />
-          <button
-            className='remove'
-            type='button'
-            aria-label='remove'
-            onClick={() => console.log('remove click')}
-          />
-        </div>
+    <div className='task'>
+      <input type='checkbox' id={id} />
+      <label htmlFor={id}>
+        <span>{todo}</span>
+      </label>
+      <div className='task__buttons'>
+        <button
+          className='play'
+          type='button'
+          aria-label='play'
+          onClick={start}
+        />
+        <button
+          className='pause'
+          type='button'
+          aria-label='pause'
+          onClick={stop}
+        />
+        <span>{timer}</span>
       </div>
-    </>
+      <span>created 17 seconds ago</span>
+      <div className='task__buttons'>
+        <button
+          className='edit'
+          type='button'
+          aria-label='edit'
+          onClick={() => console.log('edit click')}
+        />
+        <button
+          className='remove'
+          type='button'
+          aria-label='remove'
+          onClick={() => console.log('remove click')}
+        />
+      </div>
+    </div>
   )
 }
 
