@@ -13,7 +13,7 @@ const App = () => {
     sec: '',
   })
 
-  console.log(data)
+  // console.log(data)
 
   const addTask = (todo) => {
     const task = {
@@ -21,6 +21,7 @@ const App = () => {
       count: 0,
       launched: false,
       todo,
+      check: false,
     }
     setData([...data, task])
   }
@@ -50,6 +51,15 @@ const App = () => {
     )
   }
 
+  const done = (id, value) => {
+    setData(
+      data.map((item) => ({
+        ...item,
+        check: id === item.id ? value : item.check,
+      })),
+    )
+  }
+
   return (
     <section className='app'>
       <Header addTask={addTask} setFormData={setFormData} />
@@ -58,6 +68,7 @@ const App = () => {
         hidden={hidden}
         saveTime={saveTime}
         restartTime={restartTime}
+        done={done}
       />
       <Footer hideList={hideList} hidden={hidden} />
     </section>
