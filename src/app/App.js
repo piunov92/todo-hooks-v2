@@ -21,9 +21,20 @@ const App = () => {
       count: 0,
       launched: false,
       todo,
-      check: false,
+      _checked: false,
+      _edited: false,
     }
     setData([...data, task])
+  }
+
+  // редактирование поля
+  const editTask = (id, value) => {
+    setData(
+      data.map((item) => ({
+        ...item,
+        todo: id === item.id ? value : item.todo,
+      })),
+    )
   }
 
   // скрываем список
@@ -55,7 +66,23 @@ const App = () => {
     setData(
       data.map((item) => ({
         ...item,
-        check: id === item.id ? value : item.check,
+        _checked: id === item.id ? value : item._checked,
+      })),
+    )
+  }
+
+  const remove = (id) => {
+    // if (!isDone) {
+    //   setTodoCount(todoCount - 1)
+    // }
+    setData(data.filter((item) => item.id !== id))
+  }
+
+  const edit = (id, value) => {
+    setData(
+      data.map((item) => ({
+        ...item,
+        _edited: id === item.id ? value : item._edited,
       })),
     )
   }
@@ -69,6 +96,9 @@ const App = () => {
         saveTime={saveTime}
         restartTime={restartTime}
         done={done}
+        remove={remove}
+        edit={edit}
+        editTask={editTask}
       />
       <Footer hideList={hideList} hidden={hidden} />
     </section>

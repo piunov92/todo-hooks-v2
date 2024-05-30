@@ -1,4 +1,4 @@
-import Form from '../Form/Form'
+import { Form } from '../Form/Form'
 import './Header.scss'
 
 const Header = ({ addTask, setFormData }) => (

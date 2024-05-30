@@ -1,8 +1,9 @@
-import { useForm } from 'react-hook-form'
-import './Form.scss'
 import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 
-const Form = ({ setFormData, addTask }) => {
+import './Form.scss'
+
+export const Form = ({ setFormData, addTask }) => {
   const {
     register,
     handleSubmit,
@@ -61,4 +62,30 @@ const Form = ({ setFormData, addTask }) => {
   )
 }
 
-export default Form
+export const EditForm = ({ todo, editTask, id, setEdited }) => {
+  const { register, handleSubmit, setFocus } = useForm({
+    defaultValues: {
+      value: todo,
+    },
+  })
+
+  useEffect(() => {
+    setFocus('value')
+  }, [setFocus])
+
+  const submit = (data) => {
+    editTask(id, data.value)
+    setEdited(false)
+  }
+
+  return (
+    <form className='form' onSubmit={handleSubmit(submit)}>
+      <input
+        className='form__task form__edit'
+        {...register('value', {
+          required: true,
+        })}
+      />
+    </form>
+  )
+}

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { EditForm } from '../Form/Form'
 
 import './Task.scss'
 
@@ -11,14 +12,19 @@ const Task = ({
   hidden,
   todo,
   done,
-  check,
+  _checked,
+  remove,
+  _edited,
+  edit,
+  editTask,
 }) => {
   const currentTimer =
     (new Date().getHours() * 60 + new Date().getMinutes()) * 60 +
     new Date().getSeconds()
 
   const [isRunningTimer, setIsRunningTimer] = useState(launched)
-  const [checked, setChecked] = useState(check)
+  const [checked, setChecked] = useState(_checked)
+  const [edited, setEdited] = useState(_edited)
   const [timer, setTimer] = useState(
     !isRunningTimer && hidden ? count : currentTimer - count,
   )
@@ -41,12 +47,15 @@ const Task = ({
     }
   }
 
-  // console.log(checked)
-
   useEffect(() => {
     done(id, checked)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, checked])
+
+  useEffect(() => {
+    edit(id, edited)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, edited])
 
   // сохранение значения таймера
   useEffect(() => {
@@ -64,6 +73,7 @@ const Task = ({
   useEffect(() => {
     if (isRunningTimer) {
       interval.current = setInterval(() => {
+        // console.log('run timer')
         setTimer((t) => t + 1)
       }, 1000)
     }
@@ -76,7 +86,7 @@ const Task = ({
   }, [isRunningTimer])
 
   useEffect(() => {
-    if (check) {
+    if (_checked) {
       setTimer(0)
       saveTime(id, 0)
       if (interval.current) {
@@ -84,16 +94,18 @@ const Task = ({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, check])
+  }, [id, _checked])
 
   // console.log('render component Timer')
-  return (
+  return !_checked && _edited ? (
+    <EditForm todo={todo} editTask={editTask} id={id} setEdited={setEdited} />
+  ) : (
     <div className='task'>
       <input
         type='radio'
         id={id}
         onChange={() => setChecked(true)}
-        checked={check}
+        checked={_checked}
       />
       <label htmlFor={id}>
         <span>{todo}</span>
@@ -119,13 +131,15 @@ const Task = ({
           className='edit'
           type='button'
           aria-label='edit'
-          onClick={() => console.log('edit click')}
+          onClick={() => {
+            setEdited(true)
+          }}
         />
         <button
           className='remove'
           type='button'
           aria-label='remove'
-          onClick={() => console.log('remove click')}
+          onClick={() => remove(id)}
         />
       </div>
     </div>
