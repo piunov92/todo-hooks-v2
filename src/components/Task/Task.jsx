@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
+import { formatDistanceToNow } from 'date-fns'
 import { EditForm } from '../Form/Form'
 
 import './Task.scss'
 
 const Task = ({
   id,
-  count,
+  seconds,
   saveTime,
   launched,
   restartTime,
@@ -17,18 +18,38 @@ const Task = ({
   _edited,
   edit,
   editTask,
+  date,
+  reverse,
 }) => {
-  const currentTimer =
+  const currentTime =
     (new Date().getHours() * 60 + new Date().getMinutes()) * 60 +
     new Date().getSeconds()
 
   const [isRunningTimer, setIsRunningTimer] = useState(launched)
+  const initTimer = () => {
+    let init = null
+    if (reverse) {
+      if (!isRunningTimer && hidden) {
+        init = seconds
+      } else if (seconds - currentTime < 0) {
+        init = 1
+      } else {
+        init = seconds - currentTime
+      }
+    } else if (!isRunningTimer && hidden) {
+      init = seconds
+    } else {
+      init = currentTime - seconds
+    }
+    return init
+  }
   const [checked, setChecked] = useState(_checked)
   const [edited, setEdited] = useState(_edited)
-  const [timer, setTimer] = useState(
-    !isRunningTimer && hidden ? count : currentTimer - count,
-  )
+  const [timer, setTimer] = useState(initTimer())
   const interval = useRef(null)
+  const s = () => `0${timer % 60}`.slice(-2)
+  const m = () => Math.floor((timer / 60) % 60)
+  const h = () => Math.floor((timer / 3600) % 24)
 
   const start = () => {
     if (!isRunningTimer) {
@@ -60,7 +81,11 @@ const Task = ({
   // сохранение значения таймера
   useEffect(() => {
     if (isRunningTimer) {
-      saveTime(id, currentTimer - timer)
+      if (reverse) {
+        saveTime(id, currentTime + timer)
+      } else {
+        saveTime(id, currentTime - timer)
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, timer])
@@ -73,8 +98,11 @@ const Task = ({
   useEffect(() => {
     if (isRunningTimer) {
       interval.current = setInterval(() => {
-        // console.log('run timer')
-        setTimer((t) => t + 1)
+        if (reverse) {
+          setTimer((t) => t - 1)
+        } else {
+          setTimer((t) => t + 1)
+        }
       }, 1000)
     }
     return () => {
@@ -84,6 +112,11 @@ const Task = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunningTimer])
+
+  // остановка и статус done когда дойдет до 0
+  useEffect(() => {
+    if (reverse && !timer) setChecked(true)
+  }, [timer, reverse])
 
   useEffect(() => {
     if (_checked) {
@@ -123,9 +156,12 @@ const Task = ({
           aria-label='pause'
           onClick={stop}
         />
-        <span>{timer}</span>
+        <span>{`${h()}:${m()}:${s()}`}</span>
       </div>
-      <span>created 17 seconds ago</span>
+      <span>{`created ${formatDistanceToNow(date, {
+        includeSeconds: true,
+        addSuffix: true,
+      })}`}</span>
       <div className='task__buttons'>
         <button
           className='edit'

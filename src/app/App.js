@@ -7,22 +7,19 @@ import './App.scss'
 const App = () => {
   const [data, setData] = useState([])
   const [hidden, setHidden] = useState(true)
-  const [, setFormData] = useState({
-    todo: '',
-    min: '',
-    sec: '',
-  })
 
-  // console.log(data)
+  console.log(data)
 
-  const addTask = (todo) => {
+  const addTask = (todo, seconds, reverse) => {
     const task = {
       id: Math.random().toString(16).slice(2),
-      count: 0,
+      seconds,
       launched: false,
+      date: new Date(),
       todo,
       _checked: false,
       _edited: false,
+      reverse,
     }
     setData([...data, task])
   }
@@ -47,7 +44,7 @@ const App = () => {
     setData(
       data.map((item) => ({
         ...item,
-        count: id === item.id ? value : item.count,
+        seconds: id === item.id ? value : item.seconds,
       })),
     )
   }
@@ -89,7 +86,8 @@ const App = () => {
 
   return (
     <section className='app'>
-      <Header addTask={addTask} setFormData={setFormData} />
+      <Header addTask={addTask} />
+      {/* <Header addTask={addTask} setFormData={setFormData} /> */}
       <Tasks
         data={data}
         hidden={hidden}

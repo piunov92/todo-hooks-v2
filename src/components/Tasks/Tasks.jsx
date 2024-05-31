@@ -16,7 +16,7 @@ const Tasks = ({
     <Task
       key={task.id}
       id={task.id}
-      count={task.count}
+      seconds={task.seconds}
       saveTime={saveTime}
       launched={task.launched}
       _checked={task._checked}
@@ -28,6 +28,8 @@ const Tasks = ({
       remove={remove}
       edit={edit}
       editTask={editTask}
+      date={task.date}
+      reverse={task.reverse}
     />
   ))
   return hidden && <span className='tasks'>{list}</span>

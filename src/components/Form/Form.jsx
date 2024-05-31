@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import './Form.scss'
 
-export const Form = ({ setFormData, addTask }) => {
+export const Form = ({ addTask }) => {
   const {
     register,
     handleSubmit,
@@ -26,8 +26,12 @@ export const Form = ({ setFormData, addTask }) => {
   }, [isSubmitSuccessful, reset, clearErrors])
 
   const submit = (data) => {
-    setFormData(data)
-    addTask(data.todo)
+    console.log(data)
+    let reverse = false
+    if (data.min || data.sec) {
+      reverse = true
+    }
+    addTask(data.todo, data.min * 60 + Number(data.sec), reverse)
   }
 
   // console.log('render form component')
