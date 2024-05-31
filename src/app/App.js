@@ -7,6 +7,7 @@ import './App.scss'
 const App = () => {
   const [data, setData] = useState([])
   const [hidden, setHidden] = useState(true)
+  const [count, setCount] = useState(0)
 
   console.log(data)
 
@@ -22,6 +23,7 @@ const App = () => {
       reverse,
     }
     setData([...data, task])
+    setCount((c) => c + 1)
   }
 
   // редактирование поля
@@ -69,10 +71,8 @@ const App = () => {
   }
 
   const remove = (id) => {
-    // if (!isDone) {
-    //   setTodoCount(todoCount - 1)
-    // }
     setData(data.filter((item) => item.id !== id))
+    setCount((c) => c - 1)
   }
 
   const edit = (id, value) => {
@@ -98,7 +98,7 @@ const App = () => {
         edit={edit}
         editTask={editTask}
       />
-      <Footer hideList={hideList} hidden={hidden} />
+      <Footer hideList={hideList} hidden={hidden} count={count} />
     </section>
   )
 }

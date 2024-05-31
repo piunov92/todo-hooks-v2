@@ -1,9 +1,9 @@
 import Filters from '../Filters/Filters'
 import './Footer.scss'
 
-const Footer = ({ hideList, hidden }) => (
+const Footer = ({ count, hideList, hidden }) => (
   <div className='footer'>
-    <span className='footer__count-task'>0 items left</span>
+    <span className='footer__count-task'>{count} items left</span>
     <Filters />
     <button
       className='footer__clear-completed'
