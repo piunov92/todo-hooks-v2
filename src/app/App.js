@@ -6,9 +6,10 @@ import './App.scss'
 
 const App = () => {
   const [data, setData] = useState([])
-  const [hidden, setHidden] = useState(true)
   const [count, setCount] = useState(0)
-  // const [filter, setFilter] = useState('all')
+  const [completed, setCompleted] = useState(false)
+  const [all, setAll] = useState(true)
+  const [active, setActive] = useState(false)
 
   console.log(data)
 
@@ -36,11 +37,6 @@ const App = () => {
       })),
     )
   }
-
-  // скрываем список
-  // const hideList = (flag) => {
-  //   setHidden(flag)
-  // }
 
   // сохранение значения времени
   const saveTime = (id, value) => {
@@ -96,24 +92,28 @@ const App = () => {
     )
   }
 
-  // const completed = () => {
-  //     setData(data.filter((item) => item._checked === true))
-  // }
-
   return (
     <section className='app'>
       <Header addTask={addTask} />
       <Tasks
         data={data}
-        hidden={hidden}
         saveTime={saveTime}
         restartTime={restartTime}
         done={done}
         remove={remove}
         edit={edit}
         editTask={editTask}
+        completed={completed}
+        all={all}
+        active={active}
       />
-      <Footer count={count} clearCompleted={clearCompleted} />
+      <Footer
+        count={count}
+        clearCompleted={clearCompleted}
+        setAll={setAll}
+        setActive={setActive}
+        setCompleted={setCompleted}
+      />
     </section>
   )
 }

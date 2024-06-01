@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import './Filters.scss'
 
-const Filters = () => {
+const Filters = ({ setAll, setActive, setCompleted }) => {
   console.log('render filters component')
   return (
     <div className='filters'>
@@ -12,7 +12,9 @@ const Filters = () => {
           name='radio'
           value='1'
           onChange={() => {
-            console.log('radio-1')
+            setActive(false)
+            setCompleted(false)
+            setAll(true)
           }}
           defaultChecked
         />
@@ -25,7 +27,9 @@ const Filters = () => {
           name='radio'
           value='2'
           onChange={() => {
-            console.log('radio-2')
+            setAll(false)
+            setActive(true)
+            setCompleted(false)
           }}
         />
         <label htmlFor='radio-2'>Active</label>
@@ -36,7 +40,11 @@ const Filters = () => {
           type='radio'
           name='radio'
           value='3'
-          onChange={() => {}}
+          onChange={() => {
+            setAll(false)
+            setActive(false)
+            setCompleted(true)
+          }}
         />
         <label htmlFor='radio-3'>Completed</label>
       </div>

@@ -4,13 +4,15 @@ import './Tasks.scss'
 
 const Tasks = ({
   data,
-  hidden,
   saveTime,
   restartTime,
   done,
   remove,
   edit,
   editTask,
+  completed,
+  all,
+  active,
 }) => {
   const list = data.map((task) => (
     <Task
@@ -22,7 +24,6 @@ const Tasks = ({
       _checked={task._checked}
       _edited={task._edited}
       restartTime={restartTime}
-      hidden={hidden}
       todo={task.todo}
       done={done}
       remove={remove}
@@ -30,6 +31,9 @@ const Tasks = ({
       editTask={editTask}
       date={task.date}
       reverse={task.reverse}
+      completed={completed}
+      all={all}
+      active={active}
     />
   ))
   return <span className='tasks'>{list}</span>
