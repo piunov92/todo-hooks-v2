@@ -32,7 +32,7 @@ const Tasks = ({
       reverse={task.reverse}
     />
   ))
-  return hidden && <span className='tasks'>{list}</span>
+  return <span className='tasks'>{list}</span>
 }
 
 export default Tasks

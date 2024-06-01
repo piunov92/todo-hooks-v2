@@ -8,6 +8,7 @@ const App = () => {
   const [data, setData] = useState([])
   const [hidden, setHidden] = useState(true)
   const [count, setCount] = useState(0)
+  // const [filter, setFilter] = useState('all')
 
   console.log(data)
 
@@ -37,9 +38,9 @@ const App = () => {
   }
 
   // скрываем список
-  const hideList = (flag) => {
-    setHidden(flag)
-  }
+  // const hideList = (flag) => {
+  //   setHidden(flag)
+  // }
 
   // сохранение значения времени
   const saveTime = (id, value) => {
@@ -75,6 +76,17 @@ const App = () => {
     setCount((c) => c - 1)
   }
 
+  const clearCompleted = () => {
+    setData(
+      data.filter((item) => {
+        if (item._checked) {
+          setCount((c) => c - 1)
+        }
+        return item._checked === false
+      }),
+    )
+  }
+
   const edit = (id, value) => {
     setData(
       data.map((item) => ({
@@ -84,10 +96,13 @@ const App = () => {
     )
   }
 
+  // const completed = () => {
+  //     setData(data.filter((item) => item._checked === true))
+  // }
+
   return (
     <section className='app'>
       <Header addTask={addTask} />
-      {/* <Header addTask={addTask} setFormData={setFormData} /> */}
       <Tasks
         data={data}
         hidden={hidden}
@@ -98,7 +113,7 @@ const App = () => {
         edit={edit}
         editTask={editTask}
       />
-      <Footer hideList={hideList} hidden={hidden} count={count} />
+      <Footer count={count} clearCompleted={clearCompleted} />
     </section>
   )
 }

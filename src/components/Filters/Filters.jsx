@@ -36,9 +36,7 @@ const Filters = () => {
           type='radio'
           name='radio'
           value='3'
-          onChange={() => {
-            console.log('radio-3')
-          }}
+          onChange={() => {}}
         />
         <label htmlFor='radio-3'>Completed</label>
       </div>
