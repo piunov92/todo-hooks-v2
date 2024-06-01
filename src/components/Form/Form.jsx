@@ -26,7 +26,6 @@ export const Form = ({ addTask }) => {
   }, [isSubmitSuccessful, reset, clearErrors])
 
   const submit = (data) => {
-    console.log(data)
     let reverse = false
     if (data.min || data.sec) {
       reverse = true
@@ -34,7 +33,6 @@ export const Form = ({ addTask }) => {
     addTask(data.todo, data.min * 60 + Number(data.sec), reverse)
   }
 
-  // console.log('render form component')
   return (
     <form className='form' onSubmit={handleSubmit(submit)}>
       <input
