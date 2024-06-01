@@ -11,8 +11,6 @@ const App = () => {
   const [all, setAll] = useState(true)
   const [active, setActive] = useState(false)
 
-  console.log(data)
-
   const addTask = (todo, seconds, reverse) => {
     const task = {
       id: Math.random().toString(16).slice(2),
@@ -28,7 +26,6 @@ const App = () => {
     setCount((c) => c + 1)
   }
 
-  // редактирование поля
   const editTask = (id, value) => {
     setData(
       data.map((item) => ({
@@ -38,7 +35,6 @@ const App = () => {
     )
   }
 
-  // сохранение значения времени
   const saveTime = (id, value) => {
     setData(
       data.map((item) => ({
@@ -48,7 +44,6 @@ const App = () => {
     )
   }
 
-  // перезапуск времени
   const restartTime = (id, value) => {
     setData(
       data.map((item) => ({

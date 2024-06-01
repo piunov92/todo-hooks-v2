@@ -54,7 +54,7 @@ const Task = ({
   const h = () => Math.floor((timer / 3600) % 24)
 
   const start = () => {
-    if (!isRunningTimer) {
+    if (!isRunningTimer && !checked) {
       setIsRunningTimer(true)
     }
   }
@@ -62,7 +62,6 @@ const Task = ({
   const stop = () => {
     if (isRunningTimer) {
       setIsRunningTimer(false)
-      // сохраняем таймер без вычитания текущего времени
       saveTime(id, timer)
     }
     if (interval.current) {
@@ -72,12 +71,10 @@ const Task = ({
 
   useEffect(() => {
     done(id, checked)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, checked])
 
   useEffect(() => {
     edit(id, edited)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, edited])
 
   // сохранение значения таймера
@@ -89,12 +86,10 @@ const Task = ({
         saveTime(id, currentTime - timer)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, timer])
 
   useEffect(() => {
     restartTime(id, isRunningTimer)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, isRunningTimer])
 
   useEffect(() => {
@@ -112,10 +107,8 @@ const Task = ({
         clearInterval(interval.current)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunningTimer])
 
-  // остановка и статус done когда дойдет до 0
   useEffect(() => {
     if (reverse && !timer) setChecked(true)
   }, [timer, reverse])
@@ -128,219 +121,73 @@ const Task = ({
         clearInterval(interval.current)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, _checked])
 
-  // console.log('render component Timer')
-  // eslint-disable-next-line no-nested-ternary
-
-  // eslint-disable-next-line consistent-return
-  const render = () => {
-    if (all) {
-      return (
-        <div className='task'>
-          <input
-            type='radio'
-            id={id}
-            onChange={() => setChecked(true)}
-            checked={_checked}
+  const render = () =>
+    !_checked && _edited ? (
+      <EditForm todo={todo} editTask={editTask} id={id} setEdited={setEdited} />
+    ) : (
+      <div className='task'>
+        <input
+          type='radio'
+          id={id}
+          onChange={() => setChecked(true)}
+          checked={_checked}
+        />
+        <label htmlFor={id}>
+          <span>{todo}</span>
+        </label>
+        <div className='task__buttons'>
+          <button
+            className='play'
+            type='button'
+            aria-label='play'
+            onClick={start}
           />
-          <label htmlFor={id}>
-            <span>{todo}</span>
-          </label>
-          <div className='task__buttons'>
-            <button
-              className='play'
-              type='button'
-              aria-label='play'
-              onClick={start}
-            />
-            <button
-              className='pause'
-              type='button'
-              aria-label='pause'
-              onClick={stop}
-            />
-            <span>{`${h()}:${m()}:${s()}`}</span>
-          </div>
-          <span>{`created ${formatDistanceToNow(date, {
-            includeSeconds: true,
-            addSuffix: true,
-          })}`}</span>
-          <div className='task__buttons'>
-            <button
-              className='edit'
-              type='button'
-              aria-label='edit'
-              onClick={() => {
-                setEdited(true)
-              }}
-            />
-            <button
-              className='remove'
-              type='button'
-              aria-label='remove'
-              onClick={() => remove(id)}
-            />
-          </div>
+          <button
+            className='pause'
+            type='button'
+            aria-label='pause'
+            onClick={stop}
+          />
+          <span>{`${h()}:${m()}:${s()}`}</span>
         </div>
-      )
+        <span>{`created ${formatDistanceToNow(date, {
+          includeSeconds: true,
+          addSuffix: true,
+        })}`}</span>
+        <div className='task__buttons'>
+          <button
+            className='edit'
+            type='button'
+            aria-label='edit'
+            onClick={() => {
+              setEdited(true)
+            }}
+          />
+          <button
+            className='remove'
+            type='button'
+            aria-label='remove'
+            onClick={() => remove(id)}
+          />
+        </div>
+      </div>
+    )
+
+  const layout = () => {
+    if (all) {
+      return render()
     }
     if (completed && checked) {
-      return (
-        <div className='task'>
-          <input
-            type='radio'
-            id={id}
-            onChange={() => setChecked(true)}
-            checked={_checked}
-          />
-          <label htmlFor={id}>
-            <span>{todo}</span>
-          </label>
-          <div className='task__buttons'>
-            <button
-              className='play'
-              type='button'
-              aria-label='play'
-              onClick={start}
-            />
-            <button
-              className='pause'
-              type='button'
-              aria-label='pause'
-              onClick={stop}
-            />
-            <span>{`${h()}:${m()}:${s()}`}</span>
-          </div>
-          <span>{`created ${formatDistanceToNow(date, {
-            includeSeconds: true,
-            addSuffix: true,
-          })}`}</span>
-          <div className='task__buttons'>
-            <button
-              className='edit'
-              type='button'
-              aria-label='edit'
-              onClick={() => {
-                setEdited(true)
-              }}
-            />
-            <button
-              className='remove'
-              type='button'
-              aria-label='remove'
-              onClick={() => remove(id)}
-            />
-          </div>
-        </div>
-      )
+      return render()
     }
     if (active && !checked) {
-      return (
-        <div className='task'>
-          <input
-            type='radio'
-            id={id}
-            onChange={() => setChecked(true)}
-            checked={_checked}
-          />
-          <label htmlFor={id}>
-            <span>{todo}</span>
-          </label>
-          <div className='task__buttons'>
-            <button
-              className='play'
-              type='button'
-              aria-label='play'
-              onClick={start}
-            />
-            <button
-              className='pause'
-              type='button'
-              aria-label='pause'
-              onClick={stop}
-            />
-            <span>{`${h()}:${m()}:${s()}`}</span>
-          </div>
-          <span>{`created ${formatDistanceToNow(date, {
-            includeSeconds: true,
-            addSuffix: true,
-          })}`}</span>
-          <div className='task__buttons'>
-            <button
-              className='edit'
-              type='button'
-              aria-label='edit'
-              onClick={() => {
-                setEdited(true)
-              }}
-            />
-            <button
-              className='remove'
-              type='button'
-              aria-label='remove'
-              onClick={() => remove(id)}
-            />
-          </div>
-        </div>
-      )
+      return render()
     }
   }
 
-  return render()
-  // !_checked ? (
-  //   !_checked && _edited ? (
-  //     <EditForm todo={todo} editTask={editTask} id={id} setEdited={setEdited} />
-  //   ) : (
-  //     <div className='task'>
-  //       <input
-  //         type='radio'
-  //         id={id}
-  //         onChange={() => setChecked(true)}
-  //         checked={_checked}
-  //       />
-  //       <label htmlFor={id}>
-  //         <span>{todo}</span>
-  //       </label>
-  //       <div className='task__buttons'>
-  //         <button
-  //           className='play'
-  //           type='button'
-  //           aria-label='play'
-  //           onClick={start}
-  //         />
-  //         <button
-  //           className='pause'
-  //           type='button'
-  //           aria-label='pause'
-  //           onClick={stop}
-  //         />
-  //         <span>{`${h()}:${m()}:${s()}`}</span>
-  //       </div>
-  //       <span>{`created ${formatDistanceToNow(date, {
-  //         includeSeconds: true,
-  //         addSuffix: true,
-  //       })}`}</span>
-  //       <div className='task__buttons'>
-  //         <button
-  //           className='edit'
-  //           type='button'
-  //           aria-label='edit'
-  //           onClick={() => {
-  //             setEdited(true)
-  //           }}
-  //         />
-  //         <button
-  //           className='remove'
-  //           type='button'
-  //           aria-label='remove'
-  //           onClick={() => remove(id)}
-  //         />
-  //       </div>
-  //     </div>
-  //   )
-  // ) : null
+  return layout()
 }
 
 export default Task
