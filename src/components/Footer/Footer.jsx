@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import Filters from '../Filters/Filters'
 import './Footer.scss'
 
@@ -18,5 +19,10 @@ const Footer = ({ count, clearCompleted, setAll, setActive, setCompleted }) => (
     </button>
   </div>
 )
+
+Footer.propTypes = {
+  count: PropTypes.number.isRequired,
+  clearCompleted: PropTypes.func.isRequired,
+}
 
 export default Footer

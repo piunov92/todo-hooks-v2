@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 
 import './Form.scss'
@@ -90,4 +91,14 @@ export const EditForm = ({ todo, editTask, id, setEdited }) => {
       />
     </form>
   )
+}
+
+Form.propTypes = {
+  addTask: PropTypes.func.isRequired,
+}
+
+EditForm.propTypes = {
+  todo: PropTypes.string.isRequired,
+  editTask: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 }

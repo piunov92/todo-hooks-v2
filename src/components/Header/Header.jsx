@@ -1,11 +1,16 @@
+import PropTypes from 'prop-types'
 import { Form } from '../Form/Form'
 import './Header.scss'
 
-const Header = ({ addTask, setFormData }) => (
+const Header = ({ addTask }) => (
   <header className='header'>
     <h1>todos</h1>
-    <Form setFormData={setFormData} addTask={addTask} />
+    <Form addTask={addTask} />
   </header>
 )
+
+Header.propTypes = {
+  addTask: PropTypes.func.isRequired,
+}
 
 export default Header

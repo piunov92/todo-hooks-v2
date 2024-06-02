@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types'
 import Task from '../Task/Task'
-
 import './Tasks.scss'
 
 const Tasks = ({
@@ -37,6 +37,19 @@ const Tasks = ({
     />
   ))
   return <span className='tasks'>{list}</span>
+}
+
+Tasks.propsTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.string,
+    seconds: PropTypes.number,
+    launched: PropTypes.bool,
+    date: PropTypes.instanceOf(Date),
+    todo: PropTypes.string,
+    _checked: PropTypes.bool,
+    _edited: PropTypes.bool,
+    reverse: PropTypes.bool,
+  }),
 }
 
 export default Tasks
